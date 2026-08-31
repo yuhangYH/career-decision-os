@@ -1,5 +1,7 @@
 # Deployment guide
 
+Production URL: <https://career-decision-os.vercel.app>
+
 ## 1. Create Supabase
 
 1. Create a Supabase project in a suitable region.
@@ -46,6 +48,8 @@ vercel env pull .env.local
 vercel deploy
 vercel deploy --prod
 ```
+
+Pushes to `main` deploy automatically after the GitHub quality job passes. The repository stores `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID` as GitHub Actions secrets; never commit their values.
 
 `vercel.json` schedules `/api/cron/weekly-refresh` at `0 4 * * 1`: Monday 04:00 UTC / 08:00 Asia/Dubai. Confirm the cron appears in Vercel Settings and run one authenticated manual request before relying on the schedule.
 

@@ -8,7 +8,7 @@ Career Decision OS turns public job signals into explainable priorities and week
 
 ## Online demo / 在线体验
 
-[Open the live demo / 打开在线体验](https://temporary-zippy-teal-xib8nyu.vercel.app)
+[Open the live demo / 打开在线体验](https://career-decision-os.vercel.app)
 
 ## What you can explore / 可以体验什么
 
