@@ -1,7 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
+import { fileURLToPath } from "node:url";
+
+const repositoryRoot = fileURLToPath(new URL("..", import.meta.url));
 
 export default defineConfig({
-  testDir: "./tests/e2e",
+  testDir: "../tests/e2e",
   fullyParallel: false,
   workers: 1,
   use: {
@@ -13,6 +16,7 @@ export default defineConfig({
   ],
   webServer: {
     command: "pnpm build && pnpm start",
+    cwd: repositoryRoot,
     url: "http://127.0.0.1:3000",
     reuseExistingServer: !process.env.CI,
   },

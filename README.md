@@ -30,9 +30,10 @@ Career Decision OS turns public job signals into explainable priorities and week
 | [`tests/e2e/`](tests/e2e/) | Playwright 端到端和响应式测试 |
 | [`scripts/`](scripts/) | 公开内容审计、来源校验与文档检查 |
 | [`supabase/`](supabase/) | 可选云端账号、数据库迁移和 Row Level Security |
+| [`tooling/`](tooling/) | ESLint、Vitest 与 Playwright 的开发工具配置 |
 | [`.github/workflows/`](.github/workflows/) | 每次更新自动运行的质量与隐私检查 |
 
-根目录中的 `package.json`、Next.js、TypeScript、Vitest、Playwright 和 Vercel 配置是工具要求的标准入口，因此保留在根目录。
+根目录只保留 `package.json`、Next.js、TypeScript、Vercel 等框架、包管理和部署所需入口；开发工具配置统一放在 `tooling/`。
 
 ## Try it locally / 本地运行
 

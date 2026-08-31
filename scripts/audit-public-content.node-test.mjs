@@ -120,3 +120,13 @@ test("the public cron route stays within the 60-second deployment limit", async 
 
   assert.ok(configuredDuration > 0 && configuredDuration <= 60);
 });
+
+test("package scripts use the organized tooling directory", async () => {
+  const packageJson = JSON.parse(
+    await readFile(new URL("../package.json", import.meta.url), "utf8"),
+  );
+
+  assert.match(packageJson.scripts.lint, /tooling\/eslint\.config\.mjs/u);
+  assert.match(packageJson.scripts.test, /tooling\/vitest\.config\.ts/u);
+  assert.match(packageJson.scripts["test:e2e"], /tooling\/playwright\.config\.ts/u);
+});

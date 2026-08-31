@@ -8,7 +8,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@": fileURLToPath(new URL("../src", import.meta.url)),
     },
   },
   test: {
@@ -21,6 +21,6 @@ export default defineConfig({
       "test-results/**",
     ],
     globals: true,
-    setupFiles: ["./vitest.setup.ts"],
+    setupFiles: [fileURLToPath(new URL("./vitest.setup.ts", import.meta.url))],
   },
 });
