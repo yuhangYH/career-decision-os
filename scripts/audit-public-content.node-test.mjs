@@ -35,6 +35,19 @@ test("findPublicPolicyViolations allows neutral compensation transparency langua
   );
 });
 
+test("findPublicPolicyViolations rejects private candidate-tailoring phrases", () => {
+  const content = [
+    ["Existing", "network", "and", "research", "credibility"].join(" "),
+    ["CV", "publications", "support", "the", "transition"].join(" "),
+    ["Translate", "PhD", "and", "project", "delivery"].join(" "),
+  ].join("\n");
+
+  assert.deepEqual(
+    new Set(findPublicPolicyViolations(content, "seed.ts").map((finding) => finding.rule)),
+    new Set(["candidate-specific-tailoring"]),
+  );
+});
+
 test("auditPublicDirectory ignores generated folders and accepts neutral demo content", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "career-decision-public-audit-"));
   try {

@@ -28,9 +28,19 @@ function containsPrivateToken(content) {
   return tokens.some((token) => PRIVATE_TOKEN_HASHES.has(hashToken(token)));
 }
 
+function containsCandidateSpecificTailoring(content) {
+  const patterns = [
+    ["Existing", "network", "and", "research", "credibility"].join("\\s+"),
+    ["CV", "publications", "support", "the", "transition"].join("\\s+"),
+    ["Translate", "PhD", "and", "project", "delivery"].join("\\s+"),
+  ];
+  return new RegExp(patterns.join("|"), "iu").test(content);
+}
+
 export function findPublicPolicyViolations(content, file = "unknown") {
   const rules = [
     ["private-identity", containsPrivateToken(content)],
+    ["candidate-specific-tailoring", containsCandidateSpecificTailoring(content)],
     ["local-user-path", /\/(?:Users|home)\/[A-Za-z0-9._-]+\//u.test(content)],
     [
       "personal-email",
