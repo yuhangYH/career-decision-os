@@ -28,19 +28,22 @@ function containsPrivateToken(content) {
   return tokens.some((token) => PRIVATE_TOKEN_HASHES.has(hashToken(token)));
 }
 
-function containsCandidateSpecificTailoring(content) {
+function containsCandidateSpecificTailoring(content, file) {
   const patterns = [
     ["Existing", "network", "and", "research", "credibility"].join("\\s+"),
     ["CV", "publications", "support", "the", "transition"].join("\\s+"),
     ["Translate", "PhD", "and", "project", "delivery"].join("\\s+"),
   ];
-  return new RegExp(patterns.join("|"), "iu").test(content);
+  if (new RegExp(patterns.join("|"), "iu").test(content)) return true;
+  if (!/^src\/lib\/seed\/(?:jobs|companies)\.ts$/u.test(file)) return false;
+
+  return /(?:\b(?:strong|good|relevant|robust)\b[^.\n]{0,80}\b(?:fit|background)\b|\b(?:main|central|primary)\s+gap\b|\bevidence\s+is\s+the\s+gap\b|\bexperience\s+needs\s+(?:proof|validation)\b|\bwith\s+(?:a\s+)?seniority[^.\n]{0,40}\bgaps?\b|\bsubject\s+to\s+access\b|\b(?:seniority|access)\s+uncertainty\b)/iu.test(content);
 }
 
 export function findPublicPolicyViolations(content, file = "unknown") {
   const rules = [
     ["private-identity", containsPrivateToken(content)],
-    ["candidate-specific-tailoring", containsCandidateSpecificTailoring(content)],
+    ["candidate-specific-tailoring", containsCandidateSpecificTailoring(content, file)],
     ["local-user-path", /\/(?:Users|home)\/[A-Za-z0-9._-]+\//u.test(content)],
     [
       "personal-email",

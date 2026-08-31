@@ -48,6 +48,23 @@ test("findPublicPolicyViolations rejects private candidate-tailoring phrases", (
   );
 });
 
+test("findPublicPolicyViolations rejects candidate fit assessments in shared market seeds", () => {
+  const content = [
+    ["Strong", "research", "fit", "with", "access", "uncertainty"].join(" "),
+    ["Relevant", "transformer", "background"].join(" "),
+    ["Audio", "domain", "depth", "is", "the", "main", "gap"].join(" "),
+  ].join("\n");
+
+  assert.deepEqual(
+    new Set(
+      findPublicPolicyViolations(content, "src/lib/seed/jobs.ts").map(
+        (finding) => finding.rule,
+      ),
+    ),
+    new Set(["candidate-specific-tailoring"]),
+  );
+});
+
 test("auditPublicDirectory ignores generated folders and accepts neutral demo content", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "career-decision-public-audit-"));
   try {
