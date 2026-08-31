@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -47,4 +47,16 @@ test("auditPublicDirectory ignores generated folders and accepts neutral demo co
   } finally {
     await rm(root, { recursive: true, force: true });
   }
+});
+
+test("the quality workflow installs pnpm before enabling setup-node caching", async () => {
+  const workflow = await readFile(
+    new URL("../.github/workflows/quality.yml", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(workflow, /actions\/checkout@v6/u);
+  assert.match(workflow, /pnpm\/action-setup@v6/u);
+  assert.match(workflow, /actions\/setup-node@v6/u);
+  assert.ok(workflow.indexOf("pnpm/action-setup") < workflow.indexOf("actions/setup-node"));
 });
