@@ -10,13 +10,32 @@ describe("official-source opportunity seed", () => {
     expect(new Set(seedJobs.map((job) => job.id)).size).toBe(seedJobs.length);
   });
 
-  it("represents all seven role families and every target region", () => {
+  it("represents all seven role families and every active target region", () => {
     const roles = new Set(seedJobs.flatMap((job) => job.roleFamilies));
     expect(roles.size).toBe(7);
 
     const regionByCity = new Map(targetCities.map((city) => [city.id, city.region]));
     const regions = new Set(seedJobs.map((job) => regionByCity.get(job.cityId)));
-    expect(regions).toEqual(new Set(["gcc", "israel", "australia", "new_zealand", "south_africa"]));
+    expect(regions).toEqual(new Set(["gcc", "israel", "australia", "new_zealand", "south_africa", "southeast_asia", "greater_china", "europe"]));
+    expect(seedJobs.every((job) => regionByCity.has(job.cityId))).toBe(true);
+  });
+
+  it("adds official careers watches for the new active markets", () => {
+    const expectedWatches = [
+      "aws-singapore-ai-watch",
+      "bytedance-singapore-ai-watch",
+      "nvidia-shanghai-ai-watch",
+      "alibaba-hangzhou-ai-watch",
+      "google-london-ai-watch",
+    ];
+
+    for (const id of expectedWatches) {
+      const job = seedJobs.find((item) => item.id === id);
+      expect(job).toBeDefined();
+      expect(job?.status).toBe("discovery_lead");
+      expect(job?.sourceKind).toBe("official_careers");
+      expect(job?.officialUrl.startsWith("https://")).toBe(true);
+    }
   });
 
   it("keeps source provenance complete and official open URLs strict", () => {

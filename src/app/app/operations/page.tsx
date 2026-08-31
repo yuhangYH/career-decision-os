@@ -2,6 +2,7 @@ import { PageHeader } from "@/components/app/page-header";
 import { ErrorState } from "@/components/operations/error-state";
 import { IngestionRunList } from "@/components/operations/ingestion-run-list";
 import { ManualReviewQueue } from "@/components/operations/manual-review-queue";
+import { MarketExpansionIntake } from "@/components/operations/market-expansion-intake";
 import { StaleState } from "@/components/operations/stale-state";
 
 const runs = [
@@ -21,6 +22,7 @@ export default function OperationsPage() {
       <div className="operations-states"><StaleState sourceUrl={queue[0]!.sourceUrl} lastSuccess={queue[0]!.lastSuccess} /><ErrorState kind="parser" /></div>
       <IngestionRunList runs={runs} />
       <ManualReviewQueue items={queue} />
+      <MarketExpansionIntake />
     </>
   );
 }

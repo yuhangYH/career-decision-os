@@ -1,4 +1,5 @@
 import { scoreCity, CITY_WEIGHTS } from "@/lib/scoring/city";
+import { getRegionLabel } from "@/lib/markets/regions";
 import type { TargetCity } from "@/lib/seed/cities";
 
 const dimensions = [
@@ -16,7 +17,7 @@ export function CityScoreCard({ city, locale }: { city: TargetCity; locale: "zh"
   return (
     <article className="city-card card">
       <div className="city-card__header">
-        <div><span className="eyebrow">{city.region.replace("_", " ")}</span><h2>{locale === "zh" ? city.nameZh : city.name}</h2><p>{locale === "zh" ? city.countryZh : city.country}</p></div>
+        <div><span className="eyebrow">{getRegionLabel(city.region, locale)}</span><h2>{locale === "zh" ? city.nameZh : city.name}</h2><p>{locale === "zh" ? city.countryZh : city.country}</p></div>
         <div className="city-score"><strong>{score}</strong><span>/100</span></div>
       </div>
       <div className="city-themes">{city.roleThemes.map((theme) => <span key={theme}>{theme}</span>)}</div>

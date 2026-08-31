@@ -103,7 +103,16 @@ export const citySchema = z.object({
   nameZh: z.string().min(1),
   country: z.string().min(1),
   countryZh: z.string().min(1),
-  region: z.enum(["gcc", "israel", "australia", "new_zealand", "south_africa"]),
+  region: z.enum([
+    "gcc",
+    "israel",
+    "australia",
+    "new_zealand",
+    "south_africa",
+    "southeast_asia",
+    "greater_china",
+    "europe",
+  ]),
   compensation: z.number().min(0).max(100),
   roleDensity: z.number().min(0).max(100),
   englishUsability: z.number().min(0).max(100),
@@ -121,6 +130,18 @@ export const companySchema = z.object({
   cityIds: z.array(z.string().min(1)),
   roleFamilies: z.array(roleFamilySchema),
   rationale: z.string().min(1),
+});
+
+export const companyOfficeSchema = z.object({
+  id: z.string().min(1),
+  companyId: z.string().min(1),
+  cityId: z.string().min(1),
+  label: z.string().min(1),
+  officialUrl: z.string().url().refine((url) => url.startsWith("https://"), {
+    message: "Company office sources must use HTTPS.",
+  }),
+  evidence: z.enum(["confirmed_office", "careers_market", "research_lead"]),
+  checkedAt: z.string().date(),
 });
 
 export const candidateEvidenceSchema = z.object({

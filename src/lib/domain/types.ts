@@ -1,5 +1,15 @@
 export type Locale = "zh" | "en";
 
+export type CityRegion =
+  | "gcc"
+  | "israel"
+  | "australia"
+  | "new_zealand"
+  | "south_africa"
+  | "southeast_asia"
+  | "greater_china"
+  | "europe";
+
 export type RoleFamily =
   | "ai_ml_engineer"
   | "applied_scientist"
@@ -95,7 +105,7 @@ export interface City {
   nameZh: string;
   country: string;
   countryZh: string;
-  region: "gcc" | "israel" | "australia" | "new_zealand" | "south_africa";
+  region: CityRegion;
   compensation: number;
   roleDensity: number;
   englishUsability: number;
@@ -113,6 +123,21 @@ export interface Company {
   cityIds: string[];
   roleFamilies: RoleFamily[];
   rationale: string;
+}
+
+export type CompanyOfficeEvidence =
+  | "confirmed_office"
+  | "careers_market"
+  | "research_lead";
+
+export interface CompanyOffice {
+  id: string;
+  companyId: string;
+  cityId: string;
+  label: string;
+  officialUrl: string;
+  evidence: CompanyOfficeEvidence;
+  checkedAt: string;
 }
 
 export interface CandidateEvidence {
