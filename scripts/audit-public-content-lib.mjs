@@ -13,6 +13,7 @@ const PRIVATE_TOKEN_HASHES = new Set([
 const IGNORED_DIRECTORIES = new Set([
   ".git",
   ".next",
+  ".vercel",
   "node_modules",
   "playwright-report",
   "test-results",
@@ -52,7 +53,7 @@ export async function auditPublicDirectory(root) {
   async function visit(directory) {
     const entries = await readdir(directory, { withFileTypes: true });
     for (const entry of entries) {
-      if (entry.isDirectory() && IGNORED_DIRECTORIES.has(entry.name)) continue;
+      if (IGNORED_DIRECTORIES.has(entry.name)) continue;
 
       const absolutePath = path.join(directory, entry.name);
       if (entry.isDirectory()) {

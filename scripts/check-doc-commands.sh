@@ -12,7 +12,7 @@ required=(
 )
 
 for text in "${required[@]}"; do
-  if ! grep -Fq "$text" README.md docs/deployment.md docs/weekly-operations.md 2>/dev/null; then
+  if ! grep -Fq "$text" README.md docs/operations/deployment.md docs/operations/weekly-operations.md 2>/dev/null; then
     echo "Missing documentation string: $text" >&2
     exit 1
   fi

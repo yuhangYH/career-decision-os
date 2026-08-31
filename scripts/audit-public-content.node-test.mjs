@@ -40,8 +40,28 @@ test("auditPublicDirectory ignores generated folders and accepts neutral demo co
   try {
     await mkdir(path.join(root, "src"), { recursive: true });
     await mkdir(path.join(root, ".next"), { recursive: true });
+    await mkdir(path.join(root, ".vercel"), { recursive: true });
     await writeFile(path.join(root, "src", "copy.ts"), "Evidence-based career decisions for everyone.\n");
     await writeFile(path.join(root, ".next", "generated.js"), ["candidate", "personal.test"].join("@"));
+    await writeFile(
+      path.join(root, ".vercel", "build.json"),
+      ["", "Users", "privateperson", "project"].join("/"),
+    );
+
+    assert.deepEqual(await auditPublicDirectory(root), []);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("auditPublicDirectory ignores the git worktree metadata file", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "career-decision-public-worktree-audit-"));
+  try {
+    await writeFile(
+      path.join(root, ".git"),
+      `gitdir: ${["", "Users", "privateperson", "projects", "example", ".git", "worktrees", "public"].join("/")}\n`,
+    );
+    await writeFile(path.join(root, "README.md"), "Public demo content.\n");
 
     assert.deepEqual(await auditPublicDirectory(root), []);
   } finally {
@@ -59,4 +79,14 @@ test("the quality workflow installs pnpm before enabling setup-node caching", as
   assert.match(workflow, /pnpm\/action-setup@v6/u);
   assert.match(workflow, /actions\/setup-node@v6/u);
   assert.ok(workflow.indexOf("pnpm/action-setup") < workflow.indexOf("actions/setup-node"));
+});
+
+test("the public cron route stays within the 60-second deployment limit", async () => {
+  const route = await readFile(
+    new URL("../src/app/api/cron/weekly-refresh/route.ts", import.meta.url),
+    "utf8",
+  );
+  const configuredDuration = Number(route.match(/maxDuration\s*=\s*(\d+)/u)?.[1]);
+
+  assert.ok(configuredDuration > 0 && configuredDuration <= 60);
 });
