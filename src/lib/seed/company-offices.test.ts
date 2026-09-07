@@ -16,7 +16,7 @@ describe("company offices", () => {
       expect(companyIds.has(office.companyId)).toBe(true);
       expect(cityIds.has(office.cityId)).toBe(true);
       expect(office.officialUrl).toMatch(/^https:\/\//);
-      expect(office.checkedAt).toBe("2026-08-31");
+      expect(office.checkedAt).toBe("2026-09-07");
     }
   });
 
