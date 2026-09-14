@@ -130,3 +130,12 @@ test("package scripts use the organized tooling directory", async () => {
   assert.match(packageJson.scripts.test, /tooling\/vitest\.config\.ts/u);
   assert.match(packageJson.scripts["test:e2e"], /tooling\/playwright\.config\.ts/u);
 });
+
+test("TypeScript ignores numbered conflict copies in generated Next types", async () => {
+  const tsconfig = JSON.parse(
+    await readFile(new URL("../tsconfig.json", import.meta.url), "utf8"),
+  );
+
+  assert.ok(tsconfig.exclude.includes(".next/**/* *.ts"));
+  assert.equal(tsconfig.exclude.some((pattern) => /\s\d+\.ts$/u.test(pattern)), false);
+});

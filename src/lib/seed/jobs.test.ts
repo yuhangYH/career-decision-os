@@ -42,7 +42,7 @@ describe("official-source opportunity seed", () => {
     for (const job of seedJobs) {
       expect(job.officialUrl).not.toContain("example.com");
       expect(job.careersUrl).not.toContain("example.com");
-      expect(job.checkedAt).toMatch(/^2026-09-07T/);
+      expect(job.checkedAt).toMatch(/^2026-09-14T/);
       expect(job.careersUrl.startsWith("https://")).toBe(true);
       if (job.status === "verified_open") {
         expect(job.officialUrl.startsWith("https://")).toBe(true);
@@ -79,6 +79,33 @@ describe("official-source opportunity seed", () => {
     for (const id of newlyClosed) {
       expect(seedJobs.find((job) => job.id === id)?.status).toBe("closed");
     }
+  });
+
+  it("captures the 14 September official-ATS delta", () => {
+    const newlyVerified = [
+      "xero-senior-ai-agentic-8fed",
+      "xero-senior-ai-workflows-melbourne-207b",
+      "xero-senior-ai-workflows-sydney-3954",
+      "xero-head-product-ai-shared-services-b8dd",
+      "nvidia-diffusion-researcher-2013876",
+      "nvidia-deep-learning-solutions-2024979",
+      "nvidia-agentic-systems-researcher-2016502",
+      "apple-agentic-full-stack-200674773",
+      "apple-video-restoration-researcher-200671079",
+    ];
+
+    for (const id of newlyVerified) {
+      expect(seedJobs.find((job) => job.id === id)?.status).toBe("verified_open");
+    }
+
+    expect(seedJobs.find((job) => job.id === "airnz-senior-data-scientist")?.status).toBe("closed");
+    expect(seedJobs.find((job) => job.id === "xero-ml-engineering-manager")).toMatchObject({
+      title: "Engineering Manager – ML & AI",
+      cityName: "Sydney",
+      postedAt: "2026-08-20T00:00:00+10:00",
+    });
+    expect(seedJobs.find((job) => job.id === "xero-senior-ml-systems-80be")?.postedAt).toBe("2026-09-08T12:29:14.265+00:00");
+    expect(seedJobs.find((job) => job.id === "bcgx-ai-strategy-watch")?.officialUrl).toBe("https://careers.bcg.com/global/en/x");
   });
 
   it("keeps reusable opportunity decisions independent of a named candidate", () => {

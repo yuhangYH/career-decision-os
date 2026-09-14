@@ -3,7 +3,7 @@ import type {
   CompanyOfficeEvidence,
 } from "@/lib/domain/types";
 
-const CHECKED_AT = "2026-09-07";
+const CHECKED_AT = "2026-09-14";
 
 function officeSet(
   companyId: string,

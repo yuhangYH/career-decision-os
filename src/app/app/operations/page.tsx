@@ -6,6 +6,7 @@ import { MarketExpansionIntake } from "@/components/operations/market-expansion-
 import { StaleState } from "@/components/operations/stale-state";
 
 const runs = [
+  { id: "run-2026-09-14", status: "partial_success" as const, startedAt: "14 Sep · 08:00", finishedAt: "14 Sep · 08:15", sourceCount: 53, created: 9, changed: 3, closed: 1, stale: 2 },
   { id: "run-2026-09-07", status: "partial_success" as const, startedAt: "07 Sep · 08:00", finishedAt: "07 Sep · 09:50", sourceCount: 44, created: 6, changed: 1, closed: 5, stale: 7 },
   { id: "run-2026-08-31", status: "partial_success" as const, startedAt: "31 Aug · 08:00", finishedAt: "31 Aug · 08:04", sourceCount: 18, created: 6, changed: 3, closed: 1, stale: 2 },
   { id: "run-2026-08-24", status: "success" as const, startedAt: "24 Aug · 08:00", finishedAt: "24 Aug · 08:03", sourceCount: 12, created: 4, changed: 1, closed: 0, stale: 0 },
@@ -13,7 +14,7 @@ const runs = [
 
 const queue = [
   { id: "review-1", sourceUrl: "https://careers.adia.ae/", category: "network", httpStatus: null, lastSuccess: "2026-08-31", retryState: "next weekly run", message: "Official ADIA careers watch was unreachable; the last successful snapshot is retained." },
-  { id: "review-2", sourceUrl: "https://careers.bcg.com/global/en/teams/bcg-x", category: "timeout", httpStatus: null, lastSuccess: "2026-08-31", retryState: "manual", message: "Official BCG X careers watch timed out; no regional requisition status was inferred." },
+  { id: "review-2", sourceUrl: "https://careers.bcg.com/global/en/x", category: "parser", httpStatus: 200, lastSuccess: "2026-09-14", retryState: "manual", message: "BCG's search index listed Middle East AI roles whose exact official pages say filled; no open status was inferred." },
 ];
 
 export default function OperationsPage() {
