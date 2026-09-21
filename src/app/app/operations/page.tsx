@@ -6,6 +6,7 @@ import { MarketExpansionIntake } from "@/components/operations/market-expansion-
 import { StaleState } from "@/components/operations/stale-state";
 
 const runs = [
+  { id: "run-2026-09-21", status: "partial_success" as const, startedAt: "21 Sep · 08:00", finishedAt: "21 Sep · 08:35", sourceCount: 66, created: 13, changed: 3, closed: 2, stale: 2 },
   { id: "run-2026-09-14", status: "partial_success" as const, startedAt: "14 Sep · 08:00", finishedAt: "14 Sep · 08:15", sourceCount: 53, created: 9, changed: 3, closed: 1, stale: 2 },
   { id: "run-2026-09-07", status: "partial_success" as const, startedAt: "07 Sep · 08:00", finishedAt: "07 Sep · 09:50", sourceCount: 44, created: 6, changed: 1, closed: 5, stale: 7 },
   { id: "run-2026-08-31", status: "partial_success" as const, startedAt: "31 Aug · 08:00", finishedAt: "31 Aug · 08:04", sourceCount: 18, created: 6, changed: 3, closed: 1, stale: 2 },

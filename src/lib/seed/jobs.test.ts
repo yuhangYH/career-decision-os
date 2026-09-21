@@ -42,7 +42,7 @@ describe("official-source opportunity seed", () => {
     for (const job of seedJobs) {
       expect(job.officialUrl).not.toContain("example.com");
       expect(job.careersUrl).not.toContain("example.com");
-      expect(job.checkedAt).toMatch(/^2026-09-14T/);
+      expect(job.checkedAt).toMatch(/^2026-09-21T/);
       expect(job.careersUrl.startsWith("https://")).toBe(true);
       if (job.status === "verified_open") {
         expect(job.officialUrl.startsWith("https://")).toBe(true);
@@ -67,7 +67,6 @@ describe("official-source opportunity seed", () => {
     ];
     const newlyClosed = [
       "xero-senior-applied-scientist",
-      "xero-lead-technical-product-manager",
       "nvidia-tensorrt-llm-2008357",
       "nvidia-dl-inference-1985934",
       "nvidia-senior-dl-research-2013721",
@@ -106,6 +105,38 @@ describe("official-source opportunity seed", () => {
     });
     expect(seedJobs.find((job) => job.id === "xero-senior-ml-systems-80be")?.postedAt).toBe("2026-09-08T12:29:14.265+00:00");
     expect(seedJobs.find((job) => job.id === "bcgx-ai-strategy-watch")?.officialUrl).toBe("https://careers.bcg.com/global/en/x");
+  });
+
+  it("captures the 21 September official-ATS delta", () => {
+    const newlyVerified = [
+      "xero-lead-technical-product-manager-melbourne-33a5",
+      "xero-lead-technical-product-manager-brisbane-264e",
+      "g42-lead-applied-scientist-3243",
+      "g42-applied-scientist-594",
+      "g42-senior-applied-scientist-1336",
+      "g42-principal-applied-scientist-1226",
+      "g42-senior-manager-investment-ai-3335",
+      "g42-product-manager-investment-ai-3341",
+      "g42-director-product-technology-3334",
+      "g42-senior-manager-solution-engineering-2880",
+      "nvidia-senior-ai-solutions-engineer-2025034",
+      "nvidia-senior-ai-systems-engineer-2025271",
+      "nvidia-ai-infrastructure-engineer-2025844",
+    ];
+
+    for (const id of newlyVerified) {
+      expect(seedJobs.find((job) => job.id === id)?.status).toBe("verified_open");
+    }
+
+    expect(seedJobs.find((job) => job.id === "xero-lead-technical-product-manager")).toMatchObject({
+      status: "verified_open",
+      decision: { action: "stretch" },
+      postedAt: "2026-09-15T02:56:49.163+00:00",
+    });
+    expect(seedJobs.find((job) => job.id === "xero-applied-scientist-ai-products-7c3e")?.postedAt).toBe("2026-09-17T02:12:38.391+00:00");
+    expect(seedJobs.find((job) => job.id === "apple-ai-ml-chip-design")?.status).toBe("closed");
+    expect(seedJobs.find((job) => job.id === "apple-interdisciplinary-researcher")?.status).toBe("closed");
+    expect(seedJobs.find((job) => job.id === "apple-mlops-engineer")?.careersUrl).toBe("https://jobs.apple.com/en-il/search?location=israel-ISR");
   });
 
   it("keeps reusable opportunity decisions independent of a named candidate", () => {
