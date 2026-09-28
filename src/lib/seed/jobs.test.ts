@@ -42,7 +42,7 @@ describe("official-source opportunity seed", () => {
     for (const job of seedJobs) {
       expect(job.officialUrl).not.toContain("example.com");
       expect(job.careersUrl).not.toContain("example.com");
-      expect(job.checkedAt).toMatch(/^2026-09-21T/);
+      expect(job.checkedAt).toMatch(/^2026-09-28T/);
       expect(job.careersUrl.startsWith("https://")).toBe(true);
       if (job.status === "verified_open") {
         expect(job.officialUrl.startsWith("https://")).toBe(true);
@@ -83,7 +83,6 @@ describe("official-source opportunity seed", () => {
   it("captures the 14 September official-ATS delta", () => {
     const newlyVerified = [
       "xero-senior-ai-agentic-8fed",
-      "xero-senior-ai-workflows-melbourne-207b",
       "xero-senior-ai-workflows-sydney-3954",
       "xero-head-product-ai-shared-services-b8dd",
       "nvidia-diffusion-researcher-2013876",
@@ -133,10 +132,37 @@ describe("official-source opportunity seed", () => {
       decision: { action: "stretch" },
       postedAt: "2026-09-15T02:56:49.163+00:00",
     });
-    expect(seedJobs.find((job) => job.id === "xero-applied-scientist-ai-products-7c3e")?.postedAt).toBe("2026-09-17T02:12:38.391+00:00");
     expect(seedJobs.find((job) => job.id === "apple-ai-ml-chip-design")?.status).toBe("closed");
     expect(seedJobs.find((job) => job.id === "apple-interdisciplinary-researcher")?.status).toBe("closed");
     expect(seedJobs.find((job) => job.id === "apple-mlops-engineer")?.careersUrl).toBe("https://jobs.apple.com/en-il/search?location=israel-ISR");
+  });
+
+  it("captures the 28 September official-source delta", () => {
+    const newlyVerified = [
+      "xero-general-manager-data-science-cc47",
+      "xero-data-analytics-enablement-dbfc",
+      "nvidia-ai-security-researcher-2018549",
+      "nvidia-llm-agents-architect-2018397",
+      "nvidia-cybersecurity-ai-solutions-2024499",
+    ];
+
+    for (const id of newlyVerified) {
+      expect(seedJobs.find((job) => job.id === id)?.status).toBe("verified_open");
+    }
+
+    expect(seedJobs.find((job) => job.id === "vodacom-senior-data-scientist-1440162733")).toMatchObject({
+      status: "closing_soon",
+      postedAt: "2026-09-22T00:00:00+02:00",
+    });
+    expect(seedJobs.find((job) => job.id === "xero-senior-ai-workflows-melbourne-207b")).toMatchObject({
+      status: "closed",
+      decision: { action: "benchmark" },
+    });
+
+    const refreshedAppliedScientist = seedJobs.find((job) => job.id === "xero-applied-scientist-ai-products-7c3e");
+    expect(refreshedAppliedScientist?.postedAt).toBe("2026-09-23T07:08:44.335+00:00");
+    expect(refreshedAppliedScientist?.requirements.join(" ")).not.toMatch(/part-time/i);
+    expect(refreshedAppliedScientist?.hardConstraints.map((item) => item.requirement).join(" ")).not.toMatch(/part-time/i);
   });
 
   it("keeps reusable opportunity decisions independent of a named candidate", () => {
